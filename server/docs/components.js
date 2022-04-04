@@ -15,11 +15,6 @@ module.exports = {
             description: "User identification number", // desc
             example: "23", // example of an id
           },
-          fullname: {
-            type: "string", // data-type
-            description: "User's fullname", // desc
-            example: "John Doe", // example of a title
-          },
           email: {
             type: "string", // data-type
             description: "User's email", // desc
@@ -34,11 +29,6 @@ module.exports = {
             },
             description: "User's roles", // desc
             example: ["admin"], // example of a title
-          },
-          username: {
-            type: "string", // data-type
-            description: "User's username", // desc
-            example: "JohnD", // example of a title
           },
           address: {
             type: "string", // data type
@@ -175,12 +165,6 @@ module.exports = {
         type: "object", // data type
         properties: {
           email: {
-            type: "string",
-          },
-          fullname: {
-            type: "string",
-          },
-          username: {
             type: "string",
           },
           password: {

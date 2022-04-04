@@ -265,14 +265,6 @@
         "email": {
           "type": "string",
           "example": "johndoe@person.com"
-        },
-        "fullname": {
-          "type": "string",
-          "example": "John Doe"
-        },
-        "username": {
-          "type": "string",
-          "example": "johnny"
         }
       }
     },

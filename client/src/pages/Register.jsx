@@ -18,15 +18,12 @@ const Register = () => {
   password.current = watch("password", "");
 
   const onSubmit = (data) => {
-    const { password, password2, username, name, email } = data;
+    const { password, /*password2, username, name, */email } = data;
     setError("");
-    if (password === password2) {
       setIsLoading(!isLoading);
       API.post("/auth/signup", {
-        username,
         email,
         password,
-        fullname: name,
       })
         .then(({ data }) => {
           setError("");
@@ -40,9 +37,6 @@ const Register = () => {
           setIsLoading(false);
           setError(response.data.message);
         });
-    } else {
-      setError("Password doesn't match ");
-    }
   };
 
   if (isLoggedIn) {
@@ -56,60 +50,6 @@ const Register = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <h1 className="text-center text-4xl">Create Account</h1>
-          <div className="mt-4">
-            <Label className="block text-grey-darker text-sm font-bold mb-2">
-              <span>Username</span>
-            </Label>
-            <Input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-              type="text"
-              name="username"
-              ref={register({
-                minLength: {
-                  value: 4,
-                  message: "Username must be greater than 3 characters",
-                },
-                required: "Username is required",
-              })}
-            />
-          </div>
-          {errors.username && errors.username.type === "required" && (
-            <HelperText className="pt-2" valid={false}>
-              {errors.username.message}
-            </HelperText>
-          )}
-          {errors.username && errors.username.type === "minLength" && (
-            <HelperText className="pt-2" valid={false}>
-              {errors.username.message}
-            </HelperText>
-          )}
-          <div className="mt-4">
-            <Label className="block text-grey-darker text-sm font-bold mb-2">
-              <span>Fullname</span>
-            </Label>
-            <Input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-              type="text"
-              name="name"
-              ref={register({
-                required: "Name cannot be empty",
-                minLength: {
-                  value: 6,
-                  message: "Name must be greater than 5 characters",
-                },
-              })}
-            />
-          </div>
-          {errors.name && errors.name.type === "required" && (
-            <HelperText className="pt-2" valid={false}>
-              {errors.name.message}
-            </HelperText>
-          )}
-          {errors.name && errors.name.type === "minLength" && (
-            <HelperText className="pt-2" valid={false}>
-              {errors.name.message}
-            </HelperText>
-          )}
           <div className="mt-4">
             <Label className="block text-grey-darker text-sm font-bold mb-2">
               <span>Email</span>
@@ -149,8 +89,8 @@ const Register = () => {
               ref={register({
                 required: "Password required",
                 minLength: {
-                  value: 6,
-                  message: "Password must be greater than 5 characters",
+                  value: 3,
+                  message: "Password must be greater than 3 characters",
                 },
               })}
             />
@@ -165,25 +105,6 @@ const Register = () => {
               {errors.password.message}
             </HelperText>
           )}
-          <div className="mt-4">
-            <Label className="block text-grey-darker text-sm font-bold mb-2">
-              <span>Confirm Password</span>
-            </Label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-              type="password"
-              name="password2"
-              ref={register({
-                validate: (value) =>
-                  value === password.current || "Passwords do not match",
-              })}
-            />
-            {errors.password2 && (
-              <HelperText className="pt-2" valid={false}>
-                {errors.password2.message}
-              </HelperText>
-            )}
-          </div>
           <Button type="submit" className="mt-4">
             {isLoading ? (
               <PulseLoader color={"#0a138b"} size={10} loading={isLoading} />

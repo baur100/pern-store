@@ -11,7 +11,6 @@ const { ErrorHandler } = require("../helpers/error");
 const { changeUserPasswordDb } = require("../db/user.db");
 const {
   getUserByEmailDb,
-  getUserByUsernameDb,
   createUserDb,
   createUserGoogleDb,
 } = require("../db/user.db");
@@ -26,8 +25,8 @@ let curDate = moment().format();
 class AuthService {
   async signUp(user) {
     try {
-      const { password, email, fullname, username } = user;
-      if (!email || !password || !fullname || !username) {
+      const { password, email } = user;
+      if (!email || !password ) {
         throw new ErrorHandler(401, "all fields required");
       }
 
@@ -36,14 +35,9 @@ class AuthService {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const userByEmail = await getUserByEmailDb(email);
-        const userByUsername = await getUserByUsernameDb(username);
 
         if (userByEmail) {
           throw new ErrorHandler(401, "email taken already");
-        }
-
-        if (userByUsername) {
-          throw new ErrorHandler(401, "username taken already");
         }
 
         const newUser = await createUserDb({
@@ -68,8 +62,6 @@ class AuthService {
           refreshToken,
           user: {
             user_id: newUser.user_id,
-            fullname: newUser.fullname,
-            username: newUser.username,
             email: newUser.email,
           },
         };
@@ -91,10 +83,6 @@ class AuthService {
 
       if (!user) {
         throw new ErrorHandler(403, "Email or password incorrect.");
-      }
-
-      if (user.google_id && !user.password) {
-        throw new ErrorHandler(403, "Login in with Google");
       }
 
       const {

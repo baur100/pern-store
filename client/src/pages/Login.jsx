@@ -3,7 +3,6 @@ import ForgotPasswordModal from "components/ForgotPasswordModal";
 import { useUser } from "context/UserContext";
 import Layout from "layout/Layout";
 import React, { useState } from "react";
-import GoogleLogin from "react-google-login";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, Redirect, useLocation } from "react-router-dom";
@@ -17,20 +16,6 @@ const Login = () => {
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
   const { state } = useLocation();
   const { register, handleSubmit, errors } = useForm();
-
-  const handleGoogleLogin = async (googleData) => {
-    try {
-      const data = await authService.googleLogin(googleData.tokenId);
-      toast.success("Login successful 🔓");
-      setTimeout(() => {
-        setUserState(data);
-        setRedirectToReferrer(true);
-        setIsLoading(false);
-      }, 1500);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
 
   const onSubmit = async (data) => {
     const { email, password } = data;
@@ -124,14 +109,14 @@ const Login = () => {
               "Login"
             )}
           </Button>
-          <GoogleLogin
-            className="my-4 flex justify-center"
-            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-            buttonText="Log in with Google"
-            onSuccess={handleGoogleLogin}
-            onFailure={handleGoogleLogin}
-            cookiePolicy={"single_host_origin"}
-          />
+          {/*<GoogleLogin*/}
+          {/*  className="my-4 flex justify-center"*/}
+          {/*  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}*/}
+          {/*  buttonText="Log in with Google"*/}
+          {/*  onSuccess={handleGoogleLogin}*/}
+          {/*  onFailure={handleGoogleLogin}*/}
+          {/*  cookiePolicy={"single_host_origin"}*/}
+          {/*/>*/}
           <p className="text-sm mt-4">
             Don't have an account?{" "}
             <Link to="/signup" className="font-bold">
